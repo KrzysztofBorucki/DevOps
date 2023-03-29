@@ -1,6 +1,6 @@
 resource "aws_security_group" "portfolio_stack_sg" {
   name        = "portfolio-stack-sg"
-  description = "Sec Grp for portfolio ssh"
+  description = "Sec Grp for portfolio ssh and http"
   egress {
     from_port   = 0
     to_port     = 0
@@ -14,17 +14,13 @@ resource "aws_security_group" "portfolio_stack_sg" {
     protocol    = "tcp"
     cidr_blocks = [var.MYIP]
   }
-  tags = {
-    Name = "allow-ssh"
-  }
-  
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = {
-    Name = "allow-http"
+    tags = {
+    Name = "allow-ssh-and-http"
   }
 }
