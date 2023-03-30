@@ -1,0 +1,12 @@
+# Multistage Dockerfile
+
+FROM alpine:latest as unzipper
+RUN apk add unzip wget curl tar
+RUN mkdir -p /html/
+RUN wget https://github.com/KrzysztofBorucki/DevOps/raw/master/Project1/Portfolio_green.tar.gz
+RUN tar -zxvf /Portfolio_green.tar.gz -C /html/
+
+
+FROM nginx
+COPY --from=unzipper /html/Portfolio_green/ /usr/share/nginx/html
+EXPOSE 8080
