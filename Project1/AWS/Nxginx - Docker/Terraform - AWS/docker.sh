@@ -13,4 +13,4 @@ sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 docker pull seloth/portfolio:latest
-docker run -dp 8080:80 seloth/portfolio:latest
+docker run -dp 80:80 seloth/portfolio:latest
