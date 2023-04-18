@@ -1,1 +1,4 @@
 docker pull seloth/portfolio:latest
+docker pull seloth/portfolio:green
+docker pull seloth/portfolio:red
+docker pull seloth/portfolio:grey
