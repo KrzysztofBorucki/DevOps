@@ -1,9 +1,0 @@
-FROM alpine:3.14 AS downloader
-RUN apk add --no-cache wget
-WORKDIR /html
-RUN wget https://github.com/KrzysztofBorucki/DevOps/raw/master/Project1/Portfolio_green.tar.gz
-RUN tar -xzf Portfolio_green.tar.gz
-
-FROM nginx
-COPY --from=downloader /html/Portfolio_green /usr/share/nginx/html
-EXPOSE 8080
