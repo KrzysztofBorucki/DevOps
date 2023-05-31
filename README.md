@@ -2,7 +2,7 @@
 
 ## **About me**
 
-I have been working in IT for 7 years, thanks to which I managed to get to know many specializations. I've been interested in DevOps for some time now. I am convinced that working in this position will bring me great joy and will allow me to further develop my career. Although this will be my beginning of my devops professional path, I already have a lot of basic knowledge that will allow me to take my first steps. In addition, I am very ambitious, I learn quickly and willingly, I infect people with my positive attitude and I always strive for the goal.
+I have been working in IT for 7 years, and my previous job has been a valuable experience that has taught me many technical aspects and customer service skills. Currently, I am focusing on expanding my knowledge in areas related to infrastructure, cloud, and DevOps. I am keen on developing my skills, participating in trainings, and working with modern technologies, In addition, I am very ambitious, I learn quickly and willingly, I infect people with my positive attitude and I always strive for the goal.
 __________________________________________
  
 ### **Courses**
@@ -23,12 +23,33 @@ During the training I learned how to make basic web application.
 
 __________________________________________
 
-### **Projects**
+### **Books**
 
-* [soon uploaded]() -  []()
+* [Windows Server 2022 Administration Fundamentals - Third Edition]
 
+Supplementing knowledge about the latest version of Windows Server 2022 and its capabilities, as well as realizing how much Microsoft is embracing cloud solutions.
+
+* [Projekt Feniks]
+
+It was fascinating book, written in a way that makes it hard to put down. There were times when I stayed up late into the night just to read a few more pages. After reading this book, I understood the importance of task automation in IT and the value of knowledge sharing through documentation. It also made me realize the significant impact the IT department can have on a company's operations.
+
+* [W drodze do CCNA. Część I]
+
+Thanks to this book, I gained a basic understanding of network configuration and learned how to create a functioning network using VLANs in Cisco Packet Tracer.
 
 __________________________________________
+
+### **Projects**
+
+My home lab - Proxmox installed on HP Terminal:
+* DNS server - Pi-hole
+* cloud storage - Nextcloud
+* WordPress server
+* Portfolio page on NGINX using my docker image + AWS version
+* Jenkins server
+
+__________________________________________
+
 ### **Languages**
 
 * Polish - native
