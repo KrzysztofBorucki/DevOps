@@ -7,6 +7,8 @@ __________________________________________
  
 ### **Courses**
 
+* [AZ-900] - scheduling exam
+
 * [DevOps Beginners to Advanced](https://udemy-certificate.s3.amazonaws.com/pdf/UC-3638a5d6-95e5-4429-9dab-1d0db86dac4b.pdf) - Udemy
 
 During the course I had the opportunity to learn topics such as:
