@@ -42,11 +42,11 @@ __________________________________________
 ### **Projects**
 
 My home lab - Proxmox installed on HP Terminal:
-* DNS server - Pi-hole
-* cloud storage - Nextcloud
-* WordPress server
+* DNS - Pi-hole
+* Cloud Storage - Nextcloud
+* WordPress Server
 * Portfolio page on NGINX using my docker image + AWS version
-* Jenkins server
+* Jenkins Server
 
 __________________________________________
 
