@@ -7,7 +7,9 @@ __________________________________________
  
 ### **Courses**
 
-* [AZ-900] - scheduling exam
+* [Azure learning profile] (https://learn.microsoft.com/en-gb/users/krzysztofborucki-7208)
+
+Finished learning for AZ-900 but for now i gonna skip certificate and go straight to az-104 prepare
 
 * [DevOps Beginners to Advanced](https://udemy-certificate.s3.amazonaws.com/pdf/UC-3638a5d6-95e5-4429-9dab-1d0db86dac4b.pdf) - Udemy
 
