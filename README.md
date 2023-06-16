@@ -4,6 +4,11 @@
 
 I have been working in IT for 7 years, and my previous job has been a valuable experience that has taught me many technical aspects and customer service skills. Currently, I am focusing on expanding my knowledge in areas related to infrastructure, cloud, and DevOps. I am keen on developing my skills, participating in trainings, and working with modern technologies, In addition, I am very ambitious, I learn quickly and willingly, I infect people with my positive attitude and I always strive for the goal.
 __________________________________________
+
+### **Skills**
+
+* [More detailed list of skills](https://github.com/KrzysztofBorucki/Portfolio/blob/master/skills.pdf)
+__________________________________________
  
 ### **Courses**
 
