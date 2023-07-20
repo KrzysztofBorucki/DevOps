@@ -1,0 +1,29 @@
+# Nginx:
+https://docs.nginx.com/nginx-amplify/how-agent-works/configuring-metric-collection/
+
+# Install and configure the Nginx Exporter:
+https://github.com/nginxinc/nginx-prometheus-exporter
+
+nano /etc/nginx/conf.d/stub_status.conf 
+server {
+    listen 192.168.1.122:80;
+    server_name 192.168.1.122;
+    location /metrics {
+        stub_status on;
+        allow all;
+    }
+}
+
+docker run \
+  -p 9113:9113 \
+  nginx/nginx-prometheus-exporter:0.10.0 \
+  -nginx.scrape-uri=http://192.168.1.122:80/metrics \
+  -web.telemetry-path=/metrics
+  
+# prometheus:
+nano /etc/prometheus/prometheus.yml
+
+  - job_name: 'nginx exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.122:9113']

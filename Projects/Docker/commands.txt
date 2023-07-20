@@ -1,0 +1,21 @@
+# Create and run a new container from an image
+docker run -dp 80:80 "image"
+
+# Build an image from a Dockerfile
+docker build -t "image" .
+
+# Execute a command in a running container
+docker exec -it 645654654gfd /bin/bash
+
+# Upload an image to a registry
+docker image push "image"
+
+# Remove one or more images
+docker rmi -f some-nginx
+
+# Download image
+docker pull "image"
+
+docker container stop
+
+docker rm reservations

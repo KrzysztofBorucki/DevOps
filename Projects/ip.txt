@@ -1,0 +1,15 @@
+192.168.1.120 - Ansible
+192.168.1.200 - Proxmox
+192.168.1.205 - Prometheus
+192.168.1.207 - Jenkins
+
+
+#add user
+adduser seloth
+sudo usermod -aG sudo seloth
+
+sudo visudo
+root    ALL=(ALL:ALL) ALL
+seloth  ALL=(ALL:ALL) ALL
+
+seloth ALL=(ALL) NOPASSWD: ALL

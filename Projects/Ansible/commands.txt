@@ -1,0 +1,5 @@
+ansible-vault create vault.yml
+
+# https://github.com/centic9/generate-and-send-ssh-key
+./generate-and-send-ssh-key.sh --user seloth --host 192.168.1.121
+sudo ansible-playbook -i inventory playbook.yml -b

@@ -1,0 +1,26 @@
+version: '3'
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8090:8080
+    depends_on:
+      - database
+      - nginx
+
+  database:
+    image: mysql:5.7.25
+    environment:
+      - MYSQL_ROOT_PASSWORD=vpropass
+      - MYSQL_DATABASE=accounts
+    volumes:
+      - ./db_backup.sql:/docker-entrypoint-initdb.d/db_backup.sql
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginvproapp.conf:/etc/nginx/conf.d/vproapp.conf
+    ports:
+      - 8080:80
