@@ -1,0 +1,212 @@
+- name: set up frontend
+  hosts: frontend
+  become: yes
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt:
+        name: nginx
+        state: latest
+
+    - name: Download config
+      copy:
+        content: |-
+          upstream vproapp {
+           server 10.10.1.52:8080;
+          }
+          server {
+            listen 80;
+          location / {
+            proxy_pass http://10.10.1.51;
+          }
+          }
+        dest: /etc/systemd/system/tomcat.service
+
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+- name: set up webserver
+  hosts: websrvgrp
+  become: yes
+  vars:
+    download_url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.91/bin/apache-tomcat-8.5.91.tar.gz
+  tasks:
+    - name: install the java pre-requisties
+      apt:
+        name: software-properties-common 
+        state: latest
+
+    - name: install java
+      apt:
+        name: openjdk-8-jdk
+        update_cache: yes
+        state: latest
+        
+    - name: install maven
+      apt:
+        name: maven
+        state: latest
+
+    - name: Clone git repo
+      ansible.builtin.git:
+        repo: https://github.com/imranvisualpath/vprofile-repo.git
+        dest: /src/vprofile-repo
+        single_branch: yes
+        version: vp-docker
+
+    - name: Running mvn install
+      shell: "mvn install"
+      args:
+        chdir: /src/vprofile-repo
+      register: mvn_result
+
+    - name: Download Open JDK
+      apt:
+        name: openjdk-8-jre-headless
+        update_cache: yes
+        state: present
+
+    - name: validate if Java is available
+      shell: java -version
+
+    - name: Create the group
+      group:
+        name: tomcat
+        state: present
+
+    - name: Create the user
+      user:
+        name: tomcat
+        state: present
+
+    - name: Create a Directory /opt/tomcat8
+      file:
+        path: /opt/tomcat8
+        state: directory
+        mode: '0755'
+        owner: tomcat
+        group: tomcat
+
+    - name: Download Tomcat using unarchive
+      unarchive:
+        src: "{{download_url}}"
+        dest: /opt/tomcat8
+        mode: '0755'
+        remote_src: yes
+        group: tomcat
+        owner: tomcat
+        creates: /opt/tomcat8/apache-tomcat-8.5.91/
+
+    - name: Move files to the /opt/tomcat8 directory
+      become_user: tomcat
+      shell: "cp -rf /opt/tomcat8/apache-tomcat-8.5.91/* /opt/tomcat8"
+
+    - name: Creating a service file
+      copy:
+        content: |-
+          [Unit]
+          Description=Tomcat Service
+          Requires=network.target
+          After=network.target
+          [Service]
+          Type=forking
+          User=tomcat
+          Environment="CATALINA_PID=/opt/tomcat8/logs/tomcat.pid"
+          Environment="CATALINA_BASE=/opt/tomcat8"
+          Environment="CATALINA_HOME=/opt/tomcat8"
+          Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+          ExecStart=/opt/tomcat8/bin/startup.sh
+          ExecStop=/opt/tomcat8/bin/shutdown.sh
+          Restart=on-abnormal
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/tomcat.service
+
+    - name: Reload the SystemD to re-read configurations
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable the tomcat service and start
+      systemd:
+        name: tomcat
+        enabled: yes
+        state: started
+
+    - name: Connect to Tomcat server on port 8080 and check status 200 - Try 5 times
+      tags: test
+      uri:
+        url: http://localhost:8080
+      register: result
+      until: "result.status == 200"
+      retries: 5
+      delay: 10
+
+    - name: Copy war
+      shell: "cp /src/vprofile-repo/target/vprofile-v2.war /opt/tomcat8/webapps/ROOT.war"
+
+    - name: Restart the tomcat service
+      systemd:
+        name: tomcat
+        state: restarted
+
+- name: Setup DBserver
+  hosts: dbsrvgrp
+  become: yes
+  vars:
+    mysql_user: root
+    mysql_root_password: vpropass
+  tasks:
+    - name: Installing Mysql and dependencies
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server
+        - mysql-client 
+        - python3-mysqldb
+        - libmysqlclient-dev
+       
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    
+    - name: Set root user password
+      mysql_user: name=root
+                  password="{{ mysql_root_password}}"
+                  check_implicit_admin=yes
+                  login_user="{{ mysql_user }}"
+                  login_password="{{ mysql_root_password}}"
+                  state=present
+              
+    - name: Create new databases with name 'accounts'
+      community.mysql.mysql_db:
+        name:
+          - accounts
+        state: present
+        login_user: "{{ mysql_user }}"
+        login_password: "{{ mysql_root_password}}"
+        
+    - name: Download config
+      shell: "curl -o db_backup.sql https://raw.githubusercontent.com/imranvisualpath/vprofile-repo/81f8246a65dfda224e49436681da32a5e1b8b330/Docker-db/db_backup.sql"
+      args:
+        chdir: /tmp/
+        
+    - name: Restore database
+      community.mysql.mysql_db:
+        name: my_db
+        state: import
+        target: /tmp/db_backup.sql
+        login_user: "{{ mysql_user }}"
+        login_password: "{{ mysql_root_password}}"
+        force: true
+        
+    - name: Restart mysql
+      service:
+        name: mysql
+        state: restarted

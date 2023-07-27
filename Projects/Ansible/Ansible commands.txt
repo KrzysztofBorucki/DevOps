@@ -1,0 +1,14 @@
+ansible-vault create vault.yml
+
+sudo ansible-playbook -i inventory playbook.yml -b -v
+sudo ansible-playbook -i inventory -e ansible_config=ansible.cfg playbook.yml -b
+
+
+# Generate key
+ssh-keygen
+.ssh/id_rsa.pub
+
+# Copy key to remote-host
+ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
+
+cp ~/.ssh/id_rsa.pub ~/webapp

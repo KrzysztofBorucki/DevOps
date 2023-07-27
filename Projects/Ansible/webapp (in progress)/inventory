@@ -1,0 +1,12 @@
+front01 ansible_host=10.10.1.51
+web01 ansible_host=10.10.1.52
+db01 ansible_host=10.10.1.53
+ 
+[frontend]
+front01 
+ 
+[websrvgrp]
+web01
+
+[dbsrvgrp]
+db01

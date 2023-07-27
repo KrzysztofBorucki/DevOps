@@ -1,3 +1,4 @@
+Proxmox:
 192.168.1.120 - Ansible
 192.168.1.200 - Proxmox
 192.168.1.205 - Prometheus
@@ -13,3 +14,12 @@ root    ALL=(ALL:ALL) ALL
 seloth  ALL=(ALL:ALL) ALL
 
 seloth ALL=(ALL) NOPASSWD: ALL
+
+Vagrant:
+10.10.1.5 - Zabbix
+10.10.1.6 - Zabbix DB
+10.10.1.30 - Docker
+10.10.1.50 - Ansible
+10.10.1.51 - webapp - Nginx
+10.10.1.52 - webapp - Tomcat
+10.10.1.53 - webapp - DB

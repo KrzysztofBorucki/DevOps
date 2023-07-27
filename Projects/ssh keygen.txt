@@ -1,0 +1,8 @@
+# Generate key
+ssh-keygen
+.ssh/id_rsa.pub
+
+# Copy key to remote-host
+ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
+
+ssh remote-host

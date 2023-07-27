@@ -1,0 +1,25 @@
+# Ubuntu:
+$ sudo apt update
+$ sudo apt install software-properties-common -y
+$ sudo add-apt-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible -y
+
+# Remove asking for key fingerprint durning ssh:
+cd /etc/ansible
+mv ansible.cfg ansible.cfg.backup 
+ansible-config init --disabled -t all > ansible.cfg
+vim ansible.cfg
+#uncheck
+;/host_key_checking=True
+
+/host_key_checking=False
+
+
+# Sending ssh to new host:
+# download automation scritp 
+git clone https://github.com/centic9/generate-and-send-ssh-key.git
+# send ssh to host
+./generate-and-send-ssh-key.sh --user seloth --host 192.168.1.121
+
+# Change permision for key:
+chmod 400 private_key

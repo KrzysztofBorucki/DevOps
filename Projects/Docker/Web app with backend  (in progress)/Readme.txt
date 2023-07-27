@@ -9,7 +9,3 @@ curl -o nginvproapp.conf https://github.com/imranvisualpath/vprofile-repo/blob/8
 
 # Run docker compose
 docker-compose up -d
-
-
-# Run docker
-sudo docker run -p 8080:80 -d --name vproapp appimg
