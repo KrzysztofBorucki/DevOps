@@ -1,0 +1,43 @@
+# Docker compose
+docker compose up -d
+docker compose ps
+ip addr show
+docker compose stop
+docker compose down
+
+
+# Create and run a new container from an image
+docker run -dp 80:80 "image"
+
+# Build an image from a Dockerfile
+docker build -t "image" .
+
+# Execute a command in a running container
+docker exec -it 645654654gfd /bin/bash
+
+# Remove one or more images
+docker rmi -f some-nginx
+
+# Download image
+docker pull "image"
+
+# Stop container
+docker stop "containter"
+
+# Remove container
+docker rm reservations
+
+#Check why docker run not work
+docker log "image"
+docker run -it <container_name_or_id> /bin/bash
+
+
+
+# Login to Dokcerhub and push image
+docker login
+
+# Tag image
+docker tag my-image your-dockerhub-username/my-image
+
+# Upload an image to a registry
+docker image push "image"

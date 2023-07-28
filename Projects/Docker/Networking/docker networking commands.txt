@@ -1,0 +1,60 @@
+# Build docker image for network testing
+docker build . -t nhttpd
+
+# Create a Custom network (internal if you want container to be isolated)
+docker network create frontend --subnet 10.0.0.0/24
+docker network create backend --subnet 10.0.1.0/24 --internal
+docker network create db --subnet 10.0.2.0/24 --internal
+
+# Remove network
+docker network rm "name"
+
+# Connect network to container
+docker network connect backend "container name"
+
+# Disconnect network from container
+docker network disconnect bridge "container name"
+
+# Run docker conatiner in custom network
+docker run --name "conatiner name" --network "network name" -d nhttpd
+
+#* Create gateway for all networks (check below)
+docker run "container name" --network "network name" -d nhttpd
+
+# If you want to make custom traceroute in docker container
+docker run --name "container name" --network "network name" --cap-add=NET_ADMIN -d nhttpd
+
+docker run --name frontend --network frontend --cap-add=NET_ADMIN -d nhttpd
+docker network connect backend frontend
+docker network connect db frontend
+
+# Create db and backend
+docker run --name backend --network backend --cap-add=NET_ADMIN -d nhttpd
+docker run --name db --network db --cap-add=NET_ADMIN -d nhttpd
+
+# Check conatiner ip
+docker inspect "container name"
+
+
+# Add route if you want no internal networks to communicate with others
+# Example
+
+IP:
+frontend 10.0.x.2
+backend 10.0.1.3
+db 10.0.2.3
+
+
+# Login to backend conatiner
+docker exec -it backend bash
+ip route add 10.0.0.0/24 via 10.0.1.2
+ip route add 10.0.2.0/24 via 10.0.1.2
+
+# Login to db conatiner
+docker exec -it db bash
+ip route add 10.0.0.0/24 via 10.0.2.2
+ip route add 10.0.1.0/24 via 10.0.2.2
+
+
+
+ 

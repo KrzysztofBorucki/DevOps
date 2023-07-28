@@ -1,0 +1,23 @@
+version: "3"
+services:
+
+  proxy:
+    image: nhttpd
+    networks:
+      - network2
+      - network1
+
+  app:
+    image: nhttpd
+    networks:
+      - network1
+
+networks:
+  network1:
+    driver: bridge
+    name: backend
+    internal: true
+  network2:
+    driver: bridge
+    name: frontend
+    external: true
